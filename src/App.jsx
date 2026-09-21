@@ -1,6 +1,8 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import Leads from "./pages/sales/Leads.jsx";
 import { useAuth } from "./context/AuthContext.jsx";
+import  NewLead  from "./pages/sales/NewLead.jsx";
+import  ConnectedCall  from "./pages/sales/ConnectedCall.jsx";
+import  NotConnectedCall  from "./pages/sales/NotConnectedCall.jsx";
 import { Spinner } from "./components/ui/Spinner.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Clients } from "./pages/sales/Clients.jsx";
@@ -94,14 +96,7 @@ function App() {
           </ProtectedRoute>
         }
       />
-      <Route
-        path="/sales/leads"
-        element={
-          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
-            <Leads />
-          </ProtectedRoute>
-        }
-      />
+
       <Route
         path="/sales/billing"
         element={
@@ -115,6 +110,32 @@ function App() {
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
             <SalesRenewals />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/new-lead"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <NewLead />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/sales/leads/connected-call"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <ConnectedCall />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/sales/leads/not-connected-call"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <NotConnectedCall />
           </ProtectedRoute>
         }
       />

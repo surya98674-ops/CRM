@@ -1,4 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
+import { useState } from "react";
 import {
   LayoutDashboard,
   Users,
@@ -13,12 +14,23 @@ import {
   AlertCircle,
   Server,
   ScrollText,
+  ChevronDown,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext.jsx";
 
 export const Sidebar = ({ isOpen, onClose }) => {
   const { user } = useAuth();
   const location = useLocation();
+  const [openMenus, setOpenMenus] = useState({
+    leads: true,
+  });
+
+  const toggleMenu = (menu) => {
+    setOpenMenus((prev) => ({
+      ...prev,
+      [menu]: !prev[menu],
+    }));
+  };
 
   const getNavItems = () => {
     if (user.role === "superadmin") {
@@ -65,15 +77,49 @@ export const Sidebar = ({ isOpen, onClose }) => {
     }
     if (user.role === "sales") {
       return [
-         { to: "/sales/leads", icon: ScrollText, label: "Leads" },
-        { to: "/sales/clients", icon: Users, label: "Clients" },
-        { to: "/sales/billing", icon: FileText, label: "Billing" },
+        {
+          type: "nested",
+          key: "leads",
+          icon: ScrollText,
+          label: "Leads",
+
+          children: [
+            {
+              to: "/sales/leads",
+              label: "All Leads",
+            },
+            {
+              to: "/sales/leads/new",
+              label: "New Leads",
+            },
+            {
+              to: "/sales/leads/connected",
+              label: "Connected",
+            },
+            {
+              to: "/sales/leads/not-connected",
+              label: "Not Connected",
+            },
+          ],
+        },
+
+        {
+          to: "/sales/clients",
+          icon: Users,
+          label: "Clients",
+        },
+
+        {
+          to: "/sales/billing",
+          icon: FileText,
+          label: "Billing",
+        },
+
         {
           to: "/sales/billing-renewal",
           icon: CloudSync,
-          label: "upcoming renewal ",
+          label: "upcoming renewal",
         },
-       
       ];
     }
     if (user.role === "accountant") {
@@ -126,24 +172,95 @@ export const Sidebar = ({ isOpen, onClose }) => {
         </div>
         <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
           {navItems.map((item) => {
-            const isActive = location.pathname === item.to;
+            // Normal menu item
+            if (item.type !== "nested") {
+              const isActive = location.pathname === item.to;
+
+              return (
+                <NavLink
+                  key={item.to}
+                  to={item.to}
+                  onClick={onClose}
+                  className={`
+          flex items-center gap-3 px-4 py-3 rounded-lg
+          text-sm font-medium
+          transition-colors duration-200
+          ${isActive
+                      ? "bg-indigo-50 text-indigo-700 border-l-2 border-indigo-600"
+                      : "text-gray-600 hover:bg-gray-100"
+                    }
+        `}
+                >
+                  <item.icon className="w-5 h-5 shrink-0" />
+                  <span className="truncate">{item.label}</span>
+                </NavLink>
+              );
+            }
+
+            // Nested menu
+            const isParentActive = item.children?.some((child) =>
+              location.pathname.startsWith(child.to)
+            );
+
             return (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                onClick={onClose}
-                className={`
-                  flex items-center gap-3 px-4 py-3 rounded-lg text-sm font-medium
-                  transition-colors duration-200
-                  ${isActive
-                    ? "bg-indigo-50 text-indigo-700 border-l-2 border-indigo-600"
-                    : "text-gray-600 hover:bg-gray-100"
-                  }
+              <div key={item.key}>
+                <button
+                  type="button"
+                  onClick={() => toggleMenu(item.key)}
+                  className={`
+          w-full flex items-center justify-between
+          px-4 py-3 rounded-lg
+          text-sm font-medium
+          transition-colors duration-200
+          ${isParentActive
+                      ? "bg-indigo-50 text-indigo-700"
+                      : "text-gray-600 hover:bg-gray-100"
+                    }
+        `}
+                >
+                  <div className="flex items-center gap-3">
+                    <item.icon className="w-5 h-5 shrink-0" />
+                    <span>{item.label}</span>
+                  </div>
+
+                  <ChevronDown
+                    className={`
+            w-4 h-4 transition-transform duration-200
+            ${openMenus[item.key]
+                        ? "rotate-180"
+                        : ""
+                      }
+          `}
+                  />
+                </button>
+
+                {openMenus[item.key] && (
+                  <div className="ml-8 mt-1 space-y-1 border-l border-gray-200 pl-3">
+                    {item.children.map((child) => {
+                      const isChildActive =
+                        location.pathname === child.to;
+
+                      return (
+                        <NavLink
+                          key={child.to}
+                          to={child.to}
+                          onClick={onClose}
+                          className={`
+                  block px-3 py-2 rounded-md
+                  text-sm transition-colors
+                  ${isChildActive
+                              ? "bg-indigo-50 text-indigo-700 font-medium"
+                              : "text-gray-500 hover:bg-gray-100"
+                            }
                 `}
-              >
-                <item.icon className="w-5 h-5 shrink-0" />
-                <span className="truncate">{item.label}</span>
-              </NavLink>
+                        >
+                          {child.label}
+                        </NavLink>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
             );
           })}
         </nav>
