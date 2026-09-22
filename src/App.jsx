@@ -3,6 +3,7 @@ import { useAuth } from "./context/AuthContext.jsx";
 import  NewLead  from "./pages/sales/NewLead.jsx";
 import  ConnectedCall  from "./pages/sales/ConnectedCall.jsx";
 import  NotConnectedCall  from "./pages/sales/NotConnectedCall.jsx";
+import  AllLeads  from "./pages/sales/AllLeads.jsx";
 import { Spinner } from "./components/ui/Spinner.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Clients } from "./pages/sales/Clients.jsx";
@@ -73,7 +74,7 @@ function App() {
         path="/"
         element={
           <ProtectedRoute>
-            {user?.role === "sales" && <Navigate to="/sales/clients" replace />}
+            {user?.role === "sales" && <Navigate to="/sales/leads" replace />}
             {user?.role === "accountant" && (
               <Navigate to="/accountant/billing" replace />
             )}
@@ -114,25 +115,31 @@ function App() {
         }
       />
       <Route
-        path="/sales/leads/new-lead"
+        path="/sales/leads"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <AllLeads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/new"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
             <NewLead />
           </ProtectedRoute>
         }
       />
-
       <Route
-        path="/sales/leads/connected-call"
+        path="/sales/leads/connected"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
             <ConnectedCall />
           </ProtectedRoute>
         }
       />
-
       <Route
-        path="/sales/leads/not-connected-call"
+        path="/sales/leads/not-connected"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
             <NotConnectedCall />
