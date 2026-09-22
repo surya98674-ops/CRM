@@ -1,10 +1,11 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext.jsx";
-import  NewLead  from "./pages/sales/NewLead.jsx";
+import CreateNewLead from "./pages/sales/CreateNewLead.jsx";
 import  ConnectedCall  from "./pages/sales/ConnectedCall.jsx";
 import  NotConnectedCall  from "./pages/sales/NotConnectedCall.jsx";
 import  AllLeads  from "./pages/sales/AllLeads.jsx";
 import { Spinner } from "./components/ui/Spinner.jsx";
+import { NewLead } from "./pages/sales/NewLead.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Clients } from "./pages/sales/Clients.jsx";
 import { Billing } from "./pages/sales/Billing.jsx";
@@ -123,10 +124,18 @@ function App() {
         }
       />
       <Route
+        path="/sales/leads/create-new-lead"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <CreateNewLead />
+          </ProtectedRoute>
+        }
+      />
+       <Route
         path="/sales/leads/new"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
-            <NewLead />
+            <NewLead/>
           </ProtectedRoute>
         }
       />

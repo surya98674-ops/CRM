@@ -85,7 +85,7 @@ const AllLeads = () => {
     }, [search]);
 
     const handleCreateLead = () => {
-        navigate("/sales/leads/new");
+        navigate("/sales/leads/create-new-lead");
     };
 
     const handleEdit = (lead) => {
