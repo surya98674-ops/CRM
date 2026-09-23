@@ -1,13 +1,12 @@
-import React from 'react'
 import { Layout } from "../../components/layout/Layout.jsx";
 import { LeadTable } from "../../components/shared/LeadTable.jsx";
 
-const NotConnectedCall = () => {
+const Offline = () => {
   return (
-    <Layout pageTitle="Not Connected">
+    <Layout pageTitle="Offline">
       <LeadTable />
     </Layout>
-  )
-}
+  );
+};
 
-export default NotConnectedCall
+export default Offline;

@@ -1,11 +1,23 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext.jsx";
 import CreateNewLead from "./pages/sales/CreateNewLead.jsx";
-import  ConnectedCall  from "./pages/sales/ConnectedCall.jsx";
-import  NotConnectedCall  from "./pages/sales/NotConnectedCall.jsx";
+import InterestedFollowUp from "./pages/sales/InterestedFollowUp.jsx";
+import HotLead from "./pages/sales/HotLead.jsx";
+import ColdLead from "./pages/sales/ColdLead.jsx";
+import DetailShare from "./pages/sales/DetailShare.jsx";
+import CallBack from "./pages/sales/CallBack.jsx";
+import CustomerNoTally from "./pages/sales/CustomerNoTally.jsx";
+import NotRelevant from "./pages/sales/NotRelevant.jsx";
+import AnotherCompany from "./pages/sales/AnotherCompany.jsx";
 import  AllLeads  from "./pages/sales/AllLeads.jsx";
+import InternationalLead from "./pages/sales/InternationalLead.jsx";
+import DomesticLead from "./pages/sales/DomesticLead.jsx";
+import NotInterestedFollowUp from "./pages/sales/NotInterestedFollowUp.jsx";
+import NotAnswered from "./pages/sales/NotAnswered.jsx";
+import Offline from "./pages/sales/Offline.jsx";
+import Invalid from "./pages/sales/Invalid.jsx";
+import Other from "./pages/sales/Other.jsx";
 import { Spinner } from "./components/ui/Spinner.jsx";
-import { NewLead } from "./pages/sales/NewLead.jsx";
 import { Login } from "./pages/auth/Login.jsx";
 import { Clients } from "./pages/sales/Clients.jsx";
 import { Billing } from "./pages/sales/Billing.jsx";
@@ -131,27 +143,123 @@ function App() {
           </ProtectedRoute>
         }
       />
-       <Route
-        path="/sales/leads/new"
+      <Route
+        path="/sales/leads/new/international"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
-            <NewLead/>
+            <InternationalLead />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/sales/leads/connected"
+        path="/sales/leads/new/domestic"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
-            <ConnectedCall />
+            <DomesticLead />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/sales/leads/not-connected"
+        path="/sales/leads/connected/interested-follow-up"
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
-            <NotConnectedCall />
+            <InterestedFollowUp />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/interested-follow-up/hot-lead"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <HotLead />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/interested-follow-up/cold-lead"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <ColdLead />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/interested-follow-up/detail-share"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <DetailShare />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/interested-follow-up/call-back"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <CallBack />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/not-interested/customer-no-tally"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <CustomerNoTally />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/not-interested/not-relevant"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <NotRelevant />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/not-interested/another-company"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <AnotherCompany />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/connected/not-interested-follow-up"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <NotInterestedFollowUp />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/not-connected/not-answered"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <NotAnswered />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/not-connected/offline"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <Offline />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/not-connected/invalid"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <Invalid />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/leads/not-connected/other"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <Other />
           </ProtectedRoute>
         }
       />

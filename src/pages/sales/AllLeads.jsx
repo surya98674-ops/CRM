@@ -1,13 +1,16 @@
 import { useState, useMemo } from "react";
-import { Search, Plus, Pencil, UserRound } from "lucide-react";
+import { Search, Plus, Pencil, UserRound, Download } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 import { Layout } from "../../components/layout/Layout";
+import * as XLSX from "xlsx";
+
+
 
 const AllLeads = () => {
     const [search, setSearch] = useState("");
     const navigate = useNavigate();
-
+         
     const leads = [
         {
             id: 1,
@@ -61,7 +64,37 @@ const AllLeads = () => {
             interested: "Maybe",
         },
     ];
+    const handleDownloadExcel = () => {
+    const excelData = filteredLeads.map((lead, index) => ({
+        "S.NO": index + 1,
+        NAME: lead.name,
+        COMPANY: lead.company,
+        "LEAD TYPE": lead.leadType,
+        PHONE: lead.phone,
+        EMAIL: lead.email,
+        GST: lead.gst,
+        "SALES REP": lead.salesRep,
+        ASSIGNED: lead.assigned,
+        STATUS: lead.status,
+        SOURCE: lead.source,
+        "LAST CONTACT": lead.lastContact,
+        CREATED: lead.created,
+        COMMENT: lead.comment,
+        INTERESTED: lead.interested,
+    }));
 
+    const worksheet = XLSX.utils.json_to_sheet(excelData);
+
+    const workbook = XLSX.utils.book_new();
+
+    XLSX.utils.book_append_sheet(
+        workbook,
+        worksheet,
+        "All Leads"
+    );
+
+    XLSX.writeFile(workbook, "All-Leads.xlsx");
+};
     const filteredLeads = useMemo(() => {
         const value = search.toLowerCase().trim();
 
@@ -120,23 +153,45 @@ const AllLeads = () => {
                             />
                         </div>
 
-                        {/* Create Lead */}
-                        <button
-                            type="button"
-                            onClick={handleCreateLead}
-                            className="
-                inline-flex h-10 items-center justify-center
-                gap-2 rounded-lg bg-indigo-600 px-4
-                text-sm font-semibold text-white
-                transition hover:bg-indigo-700
-                focus:outline-none focus:ring-2
-                focus:ring-indigo-200
-                sm:min-w-[138px]
-              "
-                        >
-                            <Plus className="h-4 w-4" />
-                            Create New Lead
-                        </button>
+
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            {/* Download Excel */}
+                            <button
+                                type="button"
+                                onClick={handleDownloadExcel}
+                                className="
+            inline-flex h-10 items-center justify-center
+            gap-2 rounded-lg border border-emerald-200
+            bg-emerald-50 px-4
+            text-sm font-semibold text-emerald-700
+            transition hover:bg-emerald-100
+            focus:outline-none focus:ring-2
+            focus:ring-emerald-200
+            sm:min-w-[150px]
+        "
+                            >
+                                <Download className="h-4 w-4" />
+                                Download Excel
+                            </button>
+
+                            {/* Create Lead */}
+                            <button
+                                type="button"
+                                onClick={handleCreateLead}
+                                className="
+            inline-flex h-10 items-center justify-center
+            gap-2 rounded-lg bg-indigo-600 px-4
+            text-sm font-semibold text-white
+            transition hover:bg-indigo-700
+            focus:outline-none focus:ring-2
+            focus:ring-indigo-200
+            sm:min-w-[138px]
+        "
+                            >
+                                <Plus className="h-4 w-4" />
+                                Create New Lead
+                            </button>
+                        </div>
                     </div>
 
                     {/* Table */}
