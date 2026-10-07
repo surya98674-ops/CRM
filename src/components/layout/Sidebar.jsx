@@ -162,6 +162,10 @@ export const Sidebar = ({ isOpen, onClose }) => {
 
           children: [
             {
+              to: "/sales/reminder",
+              label: "Reminder",
+            },
+            {
               to: "/sales/leads",
               label: "All Leads",
             },

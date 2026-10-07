@@ -35,6 +35,7 @@ import { ServerAssignments } from "./pages/serveradmin/ServerAssignments.jsx";
 import { ExpiringAssignments } from "./pages/serveradmin/ExpiringAssignments.jsx";
 import { ProformaInvoice } from "./pages/superadmin/ProformaInvoice.jsx";
 import { ServerInfo } from "./pages/superadmin/ServerInfo.jsx";
+import Reminder from "./pages/sales/Reminder.jsx";
 
 const ProtectedRoute = ({ children, allowedRoles }) => {
   const { user, isLoading } = useAuth();
@@ -132,6 +133,14 @@ function App() {
         element={
           <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
             <AllLeads />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/sales/reminder"
+        element={
+          <ProtectedRoute allowedRoles={["sales", "superadmin"]}>
+            <Reminder />
           </ProtectedRoute>
         }
       />
